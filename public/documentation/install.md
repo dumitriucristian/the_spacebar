@@ -34,3 +34,12 @@ use security check
 ```php bin/console security:check```
 
 ##twig
+install twig
+```composer require twig```
+
+###twig sintax
+say somethnig ```{{}}```
+
+do something ````{% %}````
+
+comments ```{##}``` 
