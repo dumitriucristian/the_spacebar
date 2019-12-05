@@ -43,3 +43,25 @@ say somethnig ```{{}}```
 do something ````{% %}````
 
 comments ```{##}``` 
+
+extend templates {% extends <template name> %}
+
+### install profiler ```composer require profiler --dev```
+
+### debugging tools ```composer require debug --dev```
+
+unpack the pack to control the version of each library ```composer unpack debug```
+
+
+clear cache ```rm -rf var/cache/dev/*```
+
+install asset ```composer require asset```
+
+debug routes ```php bin/console debug:router```
+
+create route ```{{ path('routePath') }}```
+
+get parent block data ```{% block javascript %}
+                            {{ parent() }}
+                            {% endblock %} 
+                        ```
