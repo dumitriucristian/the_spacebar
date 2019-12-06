@@ -63,5 +63,10 @@ create route ```{{ path('routePath') }}```
 
 get parent block data ```{% block javascript %}
                             {{ parent() }}
-                            {% endblock %} 
+                            {% endblock %}                             
                         ```
+##logger
+go to var/log/dev.log \
+add LoggerInterface as second param in controller methods\
+##Autowiring
+```` php bin/console debug:autowiring````
