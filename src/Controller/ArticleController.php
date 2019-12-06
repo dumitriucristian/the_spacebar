@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use Michelf\MarkdownInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +24,7 @@ class ArticleController extends AbstractController
     /**
      * @route("/news/{slug}", name="article_show")
      */
-    public function show($slug)
+    public function show($slug, MarkdownInterface $markdown)
     {
 
         $comments =[
@@ -31,9 +32,11 @@ class ArticleController extends AbstractController
             "I am against that idea",
             "For me it's no interest"
         ];
+        $articleContent = $markdown->transform(" some text with **Markdown** text");
 
         return $this->render('article/show.html.twig', [
             'title' => ucwords(str_replace('-', ' ', $slug)),
+            'articleContent' => $articleContent,
             'comments' => $comments,
             'slug' => $slug
         ]);
