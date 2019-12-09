@@ -2,12 +2,15 @@
 
 namespace App\Controller;
 
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Michelf\MarkdownInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Psr\Log\LoggerInterface;
+use App\Entity\Article;
 
 class ArticleController extends AbstractController
 {
@@ -24,21 +27,30 @@ class ArticleController extends AbstractController
     /**
      * @route("/news/{slug}", name="article_show")
      */
-    public function show($slug, MarkdownInterface $markdown)
+    public function show($slug, MarkdownInterface $markdown, EntityManagerInterface $em)
     {
+
+        $repository = $em->getRepository(Article::class);
+
+        /** @var  Article $article */
+        $article = $repository->findBy(["slug" => $slug ]);
+        if (!$article) {
+            throw $this->createNotFoundException("THis article do not exist");
+        }
+
 
         $comments =[
             "I do agree ",
             "I am against that idea",
             "For me it's no interest"
         ];
-        $articleContent = $markdown->transform(" some text with **Markdown** text");
+
 
         return $this->render('article/show.html.twig', [
-            'title' => ucwords(str_replace('-', ' ', $slug)),
-            'articleContent' => $articleContent,
+
+            'article' => $article,
             'comments' => $comments,
-            'slug' => $slug
+
         ]);
     }
 
