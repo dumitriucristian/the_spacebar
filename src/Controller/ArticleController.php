@@ -20,6 +20,7 @@ class ArticleController extends AbstractController
      */
     public function homepage()
     {
+
         return $this->render('article/homepage.html.twig');
     }
 
@@ -57,11 +58,14 @@ class ArticleController extends AbstractController
     /**
      * @route("/news/{slug}/heart", name="article_toggle_heart", methods="POST")
      */
-    public function toggleArticleHeart($slug, LoggerInterface $logger)
+    public function toggleArticleHeart(Article $article, LoggerInterface $logger, EntityManagerInterface $em)
     {
-        //TODO - actually hear/unheart the article
+
+       $article->setHeartCount($article->getHeartCount() + 1 );
+       $em->flush();
+
         $logger->info('Article is being hearted');
-        return new JsonResponse(['hearts'=> rand(5,100)]);
+        return new JsonResponse(['hearts'=>$article->getHeartCount()] );
     }
 
 
